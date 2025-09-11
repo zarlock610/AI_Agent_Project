@@ -2,6 +2,11 @@ import os
 import sys
 from dotenv import load_dotenv
 from google import genai
+from google.genai import types
+
+messages = [
+    types.Content(role="user", parts=[types.Part(text=user_prompt)]),
+]
 
 def main():
     load_dotenv()
@@ -11,7 +16,7 @@ def main():
         print("You must provide a prompt as a command line argument.", file=sys.stderr) 
         sys.exit(1)  
     else: print(f"Generating content for: {sys.argv[1]}")
-    GenCliRes = client.models.generate_content(model='gemini-2.0-flash-001', contents=sys.argv[1])
+    GenCliRes = client.models.generate_content(model='gemini-2.0-flash-001', contents=messages,)
     print(GenCliRes.text)
     ptokens = GenCliRes.usage_metadata.prompt_token_count
     rtokens = GenCliRes.usage_metadata.candidates_token_count
