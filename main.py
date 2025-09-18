@@ -24,7 +24,7 @@ def main():
             
             print(f"Response: {GenCliRes.text}")
             print(f"User prompt: {sys.argv[1]}")
-            print(f"Prompt tokes: {ptokens}")
+            print(f"Prompt tokens: {ptokens}")
             print(f"Response tokens: {rtokens}")
         else: print("Improper Argument. Use --verbose for detailed output.", file=sys.stderr)  
     else: 
