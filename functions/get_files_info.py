@@ -8,5 +8,11 @@ def get_files_info(working_directory, directory="."):
 
 
 def dat_info(file_path):#This is going to comb lists of title, size, and direct true/false in lesson's format.
-    title_list = list(os.listdir(file_path))
-    file_size_list = os.path.getsize(file_path)#This will only show directory size, must walkthrough
+    title_list = list(os.listdir(file_path))#list of file names only
+    file_size_list = []#list of bytes as integers only
+    for item in os.listdir(file_path):
+        if os.path.isfile(item):
+        file_size_list.append(os.path.getsize(item))
+    directory_bool_list = list(os.path.isdir(file_path))#list of true/false only
+    for name, size, status in zip(title_list, file_size_list, directory_bool_list):#zip() combines separate lists into one list of tuples
+        return(f'- {name}: file_size={size} bytes, is_dir={status}')
