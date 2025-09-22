@@ -6,11 +6,11 @@ def get_files_info(working_directory, directory="."):
     except Exception as e:
         return f"Error: Unable to create absolute path. Line 3. {str(e)}"
     try:
-        if not full_path.startswith(os.path.abspath(working_directory)):#error if full path isn't inside working directory; this is a validator
-            raise Exception(f'Error: Cannot list "{directory}" as it is outside the permitted working directory. Line 7. {str(e)}')
-        elif not os.path.isdir(directory): #logic for checking if directory is a directory
+        if os.path.commonpath([full_path, os.path.abspath(working_directory)]) != os.path.abspath(working_directory):#error if full path isn't inside working directory; this is a validator
+            raise Exception(f'Error: Cannot list "{directory}" as it is outside the permitted working directory. Line 7.')
+        elif not os.path.isdir(full_path): #logic for checking if directory is a directory
             raise Exception(f"Error: Unable to determine if path is a directory. Line 11.")
-        else: return dat_info(full_path) #NOT DONE YET; function dat_info() will go here
+        else: return dat_info(full_path) 
     except Exception as e:
         return f'Error: Unable to execute main logic. Line 7. {str(e)}'
 
@@ -26,16 +26,18 @@ def dat_info(file_path):#This is going to comb lists of title, size, and direct 
         return f"Error: Unable to create file size list. Line 22 of dat_info function. {str(e)}"
     try:
         for item in os.listdir(file_path):
-            if os.path.isfile(item):
-                file_size_list.append(os.path.getsize(item))
+            full_item_path = os.path.join(file_path, item)
+            file_size_list.append(os.path.getsize(full_item_path))
     except Exception as e:
         return f"Error: Unable to populate file size list. Line 26 of dat_info function. {str(e)}"
     try:
-        directory_bool_list = list(os.path.isdir(file_path))#list of true/false only
+        directory_bool_list = [os.path.isdir(os.path.join(file_path, name)) for name in title_list]#list of true/false only
     except Exception as e:
         return f"Error: Unable to create directory boolean list. Line 32 of dat_info function. {str(e)}"
     try:
+        results = []
         for name, size, status in zip(title_list, file_size_list, directory_bool_list):#zip() combines separate lists into one list of tuples
-            return(f'- {name}: file_size={size} bytes, is_dir={status}')
+            results.append(f'- {name}: file_size={size} bytes, is_dir={status}')
+        return "\n".join(results)
     except Exception as e:
         return f"Error: Unable to combine lists. Line 36 of dat_info function. {str(e)}"
