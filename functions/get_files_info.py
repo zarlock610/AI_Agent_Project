@@ -1,3 +1,5 @@
+import os
+
 def get_files_info(working_directory, directory="."):
     try:
         full_path = os.path.abspath(os.path.join(working_directory, directory))#This sets a custom path that is the working directory(the floor) and the directory(where we are going to).
@@ -6,8 +8,8 @@ def get_files_info(working_directory, directory="."):
     try:
         if not full_path.startswith(os.path.abspath(working_directory)):#error if full path isn't inside working directory; this is a validator
             raise Exception(f'Error: Cannot list "{directory}" as it is outside the permitted working directory. Line 7. {str(e)}')
-        elif: not os.path.isdir(directory): #logic for checking if directory is a directory
-            raise Exception(f"Error: Unable to determine if path is a directory. Line 11."
+        elif not os.path.isdir(directory): #logic for checking if directory is a directory
+            raise Exception(f"Error: Unable to determine if path is a directory. Line 11.")
         else: return dat_info(full_path) #NOT DONE YET; function dat_info() will go here
     except Exception as e:
         return f'Error: Unable to execute main logic. Line 7. {str(e)}'
@@ -25,7 +27,7 @@ def dat_info(file_path):#This is going to comb lists of title, size, and direct 
     try:
         for item in os.listdir(file_path):
             if os.path.isfile(item):
-            file_size_list.append(os.path.getsize(item))
+                file_size_list.append(os.path.getsize(item))
     except Exception as e:
         return f"Error: Unable to populate file size list. Line 26 of dat_info function. {str(e)}"
     try:
