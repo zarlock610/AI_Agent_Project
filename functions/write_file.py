@@ -11,8 +11,9 @@ def write_file(working_directory, file_path, content):
     except Exception as e:
         return f'Error: Unable to validate path. Line 10. {str(e)}'
     try:
-        if not os.path.exists(full_path):
-            os.makedirs(full_path)
+        parent_dir = os.path.dirname(full_path)
+        if not os.path.exists(parent_dir):
+            os.makedirs(parent_dir)
     except Exception as e:
         return f"Error: Unable to create directories. Line 15. {str(e)}"
     try:
